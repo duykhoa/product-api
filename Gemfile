@@ -9,7 +9,10 @@ gem 'spring', :group => :development
 
 gem 'sqlite3'
 
+gem "paranoia", "~> 2.2"
+
 group :development, :test do
+  gem 'factory_girl_rails'
   gem 'rspec-rails', '~> 3.5'
   gem 'byebug'
 end
