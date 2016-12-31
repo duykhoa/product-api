@@ -11,4 +11,13 @@ describe Product, type: :model do
       expect(Product.count).to eq 0
     end
   end
+
+  describe "has many images" do
+    it do
+      product = create :product
+      image = create(:image, product: product)
+
+      expect{product.images}.not_to raise_error
+    end
+  end
 end
