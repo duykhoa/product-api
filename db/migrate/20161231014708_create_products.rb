@@ -6,5 +6,8 @@ class CreateProducts < ActiveRecord::Migration
       t.text :description
       t.timestamps null: false
     end
+
+    add_index :products, :id
+    add_index :products, :name
   end
 end
