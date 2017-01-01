@@ -13,6 +13,10 @@ class Uploader
 
     alias_method :url, :image_url
 
+    def success?
+      @status == :success
+    end
+
     attr_reader :status, :error, :image, :raw_response
   end
 

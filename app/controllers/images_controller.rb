@@ -1,7 +1,7 @@
 class ImagesController < ApplicationController
   def create
     uploader = Uploader.new
-    image = uploader.upload(image_file)
+    upload_response = uploader.upload(image_file)
 
     if upload_response.success?
       render json: upload_response.image, status: :created
