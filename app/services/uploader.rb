@@ -73,8 +73,7 @@ class Uploader
   end
 
   def image_host_upload(image, options)
-    raw_response = @image_host.upload(image, options)
-    OpenStruct.new(raw_response)
+    OpenStruct.new(@image_host.upload(image, options))
   end
 
   def build_or_persist(raw_response, persist_after_upload)
