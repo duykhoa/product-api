@@ -51,9 +51,39 @@ describe Uploader do
       expect { uploader.upload(image_path) }.not_to raise_error
     end
 
-    it "return an image object" do
-      image = uploader.upload(image_path)
-      expect(image.url).to eq uploaded_image_url
+    context "response object" do
+      it "returns an image object" do
+        response = uploader.upload(image_path)
+        expect(response.url).to eq uploaded_image_url
+      end
+
+      it "returns image_url when error" do
+        uploader = Uploader.new(image_host: WithErrorImageHost.new)
+        response = uploader.upload(image_path)
+        expect(response.url).to be nil
+      end
+
+      it "return error msg" do
+        uploader = Uploader.new(image_host: WithErrorImageHost.new)
+        response = uploader.upload(image_path)
+        expect(response.error).to eq "Failed to open TCP connection"
+      end
+
+      it "can persist data to db" do
+        uploader = Uploader.new(image_host: RealRepsonseImageHost.new)
+
+        expect{
+          uploader.upload(image_path, true)
+        }.to change(Image, :count).by(1)
+      end
+
+      it "can't persist when error" do
+        uploader = Uploader.new(image_host: WithErrorImageHost.new)
+
+        expect{
+          uploader.upload(image_path, true)
+        }.to change(Image, :count).by(0)
+      end
     end
   end
 end
