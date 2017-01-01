@@ -1,38 +1,5 @@
 require 'rails_helper'
 
-class Uploader
-  def initialize(options = {})
-    @image_host = options[:image_host]
-  end
-
-  def upload(image, options = nil)
-    with_error_handler do
-      @image_host.upload(image, options)
-    end
-  end
-
-  def with_error_handler(&block)
-    begin
-      block.call
-    rescue SocketError => e
-      error_handler(e)
-    end
-  end
-
-  def error_handler(e)
-    # TODO: report error
-    nil
-  end
-end
-
-class ImageHost
-  attr_reader :uploaded_image
-
-  def upload(image, option)
-    @uploaded_image = image
-  end
-end
-
 class WithErrorImageHost
   def upload(image, option)
     raise SocketError, "Failed to open TCP connection"
@@ -51,7 +18,7 @@ class RealRepsonseImageHost
      "created_at"=>"2016-12-31T18:28:28Z",
      "tags"=>[], "bytes"=>12157, "type"=>"upload",
      "etag"=>"5d72a4ef966f78964feafb59f7589958",
-     "url"=>"http://res.cloudinary.com/image-host1231443/image/upload/v1483208908/bp23d8dr6bj9bc8ixvdo.png",
+     "url"=>"http://cloudinary.com/image-host/image.png",
      "secure_url"=>"https://res.cloudinary.com/image-host1231443/image/upload/v1483208908/bp23d8dr6bj9bc8ixvdo.png",
      "original_filename"=>"wip"
     }
@@ -59,8 +26,9 @@ class RealRepsonseImageHost
 end
 
 describe Uploader do
-  let(:image_host) { ImageHost.new }
+  let(:image_host) { RealRepsonseImageHost.new }
   let(:uploader) { Uploader.new(image_host: image_host) }
+  let(:uploaded_image_url) { "http://cloudinary.com/image-host/image.png" }
 
   describe "#upload" do
     let(:image_path) { './image.jpg' }
@@ -78,14 +46,14 @@ describe Uploader do
       uploader.upload(image_path, options)
     end
 
-    it "call upload method from image_host object" do
-      uploader.upload(image_path)
-      expect(image_host.uploaded_image).to eq image_path
-    end
-
-    it "can handle error" do
+    it "can handle SocketError" do
       uploader = Uploader.new(image_host: WithErrorImageHost.new)
       expect { uploader.upload(image_path) }.not_to raise_error
+    end
+
+    it "return an image object" do
+      image = uploader.upload(image_path)
+      expect(image.url).to eq uploaded_image_url
     end
   end
 end
