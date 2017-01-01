@@ -8,8 +8,10 @@ gem 'rails-api'
 gem 'spring', :group => :development
 
 gem 'sqlite3'
+gem 'cloudinary'
 
 gem "paranoia", "~> 2.2"
+gem 'dotenv-rails'
 
 group :development, :test do
   gem 'factory_girl_rails'
