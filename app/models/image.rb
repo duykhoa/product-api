@@ -1,6 +1,4 @@
 class Image < ActiveRecord::Base
-  belongs_to :product
-
   def self.persist(upload_image)
     create(url: upload_image.url)
   end

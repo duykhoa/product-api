@@ -14,8 +14,8 @@ describe Product, type: :model do
 
   describe "has many images" do
     it do
-      product = create :product
-      image = create(:image, product: product)
+      image = create(:image)
+      product = create :product, images: [image]
 
       expect{product.images}.not_to raise_error
     end
