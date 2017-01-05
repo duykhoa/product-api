@@ -84,6 +84,7 @@ GEM
     paranoia (2.2.0)
       activerecord (>= 4.0, < 5.1)
     rack (1.6.5)
+    rack-cors (0.4.0)
     rack-test (0.6.3)
       rack (>= 1.0)
     rails (4.2.5.1)
@@ -163,6 +164,7 @@ DEPENDENCIES
   dotenv-rails
   factory_girl_rails
   paranoia (~> 2.2)
+  rack-cors
   rails (= 4.2.5.1)
   rails-api
   rspec-rails (~> 3.5)
