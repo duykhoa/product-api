@@ -1,3 +1,3 @@
 class ImageSerializer < ActiveModel::Serializer
-  attributes :url
+  attributes :url, :id
 end
