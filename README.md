@@ -15,6 +15,7 @@ Simple APIs for product listing.
 - Config `.env` file (based on `.env.sample`)
 - `bundle install`
 - `rake db:migrate`
+- `rake db:seed`
 - `rails s`
 
 # Example usage
@@ -22,23 +23,23 @@ Simple APIs for product listing.
 - CRUD product
 
   + Get all products
-  
+
     `curl -XGET localhost:3000/products`
-    
+
   + Get info of a product
-  
+
     `curl -XGET localhost:3000/products/1`
-    
+
   + Create new product(without image)
-  
+
     `curl -XPOST localhost:3000/products -d 'product[name]=NewBag&product[description]=nicebag&product[price]=100'`
-    
+
   + Update product
-  
+
     `curl -XPUT localhost:3000/products -d 'product[name]=NewBag&product[description]=nicebag&product[price]=100'`
-    
+
   + Delete product
-  
+
     `curl -XDELETE localhost:3000/products/1`
 
 - Upload iamge
