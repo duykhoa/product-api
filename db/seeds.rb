@@ -1,7 +1,26 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
-#
-# Examples:
-#
-#   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
-#   Mayor.create(name: 'Emanuel', city: cities.first)
+def create_product(name, description, price, image)
+  Product.create(name: name, description: description, price: price, images: [image])
+end
+
+def upload_images(image_path)
+  Uploader.new.upload(image_path)
+end
+
+def clear
+  Product.delete_all
+  Image.delete_all
+end
+
+def seeding
+  printf "Start seeding! It will take a bit of time\n"
+  image_path = File.join(Rails.root, "public/assets/images")
+
+  (1..5).each do |i|
+    img = upload_images("#{image_path}/img#{i}.jpg").image
+    create_product("Product Name {i}", "Product Description #{i}", rand(100), img)
+  end
+
+  printf "Finish seeding!\n"
+end
+
+seeding
