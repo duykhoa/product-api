@@ -11,13 +11,17 @@ def clear
   Image.delete_all
 end
 
+def image_path
+  File.join(Rails.root, "public/assets/images")
+end
+
 def seeding
   printf "Start seeding! It will take a bit of time\n"
-  image_path = File.join(Rails.root, "public/assets/images")
+  clear
 
   (1..5).each do |i|
     img = upload_images("#{image_path}/img#{i}.jpg").image
-    create_product("Product Name {i}", "Product Description #{i}", rand(100), img)
+    create_product("Product Name #{i}", "Product Description #{i}", rand(100), img)
   end
 
   printf "Finish seeding!\n"
